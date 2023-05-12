@@ -57,8 +57,8 @@ for i in range(dark_size[0]):
 
 combined_darks = ccdp.combine(calibrated_darks,
                               method='average',
-                              sigma_clip=True, sigma_clip_low_thresh = sigma_low_threshold, sigma_clip_high_thresh = sigma_high_threshold,
-                              sigma_clip_func=np.ma.median, sigma_clip_dev_func=mad_std,
+                              sigma_clip=True, sigma_clip_low_thresh = 2, sigma_clip_high_thresh = 3,
+                            
                               mem_limit=350e8
                             )
 
@@ -163,22 +163,23 @@ for i in range(len(z_science)):
 
 m13_g = g_science[0]
 
-m13_g = ccdp.ccd_process(m13_g, dark_frame = combined_darks, dark_exposure = 1800*u.s, data_exposure = 120*u.s, master_flat = combined_flats[0])
+m13_g = ccdp.ccd_process(m13_g, dark_frame = combined_darks, dark_exposure = 1800*u.s, data_exposure = 120*u.s, master_flat = combined_flats[0], dark_scale = True, master_bias = combined_bias)
+
 m13_g.write(os.getcwd() + '/Documents\ARCSAT_OBSERVATIONS/Calibrated/M13_g.fit', overwrite = True)
 
 m13_r = r_science[0]
 
-m13_r = ccdp.ccd_process(m13_r, dark_frame = combined_darks, dark_exposure = 1800*u.s, data_exposure = 120*u.s, master_flat = combined_flats[1])
+m13_r = ccdp.ccd_process(m13_r, dark_frame = combined_darks, dark_exposure = 1800*u.s, data_exposure = 120*u.s, master_flat = combined_flats[1], dark_scale = True, master_bias = combined_bias)
 m13_r.write(os.getcwd() + '/Documents\ARCSAT_OBSERVATIONS/Calibrated/M13_r.fit', overwrite = True)
 
 NGC_4726_g = g_science[1]
 
-NGC_4726_g = ccdp.ccd_process(NGC_4726_g, dark_frame = combined_darks, dark_exposure = 1800*u.s, data_exposure = 900*u.s, master_flat = combined_flats[0])
+NGC_4726_g = ccdp.ccd_process(NGC_4726_g, dark_frame = combined_darks, dark_exposure = 1800*u.s, data_exposure = 900*u.s, master_flat = combined_flats[0], dark_scale = True, master_bias = combined_bias)
 NGC_4726_g.write(os.getcwd() + '/Documents\ARCSAT_OBSERVATIONS/Calibrated/NGC_4726_g.fit', overwrite = True)
 
 NGC_4726_r = r_science[1]
-NGC_4726_r = ccdp.ccd_process(NGC_4726_g, dark_frame = combined_darks, dark_exposure = 1800*u.s, data_exposure = 900*u.s, master_flat = combined_flats[1])
-NGC_4726_g.write(os.getcwd() + '/Documents\ARCSAT_OBSERVATIONS/Calibrated/NGC_4726_r.fit', overwrite = True)
+NGC_4726_r = ccdp.ccd_process(NGC_4726_g, dark_frame = combined_darks, dark_exposure = 1800*u.s, data_exposure = 900*u.s, master_flat = combined_flats[1], dark_scale = True, master_bias = combined_bias)
+NGC_4726_r.write(os.getcwd() + '/Documents\ARCSAT_OBSERVATIONS/Calibrated/NGC_4726_r.fit', overwrite = True)
 
 
 plt.imshow(m13_g)
